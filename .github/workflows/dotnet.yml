@@ -1,0 +1,28 @@
+name: Build and test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '3.1.x'
+    - name: Restore dependencies
+      working-directory: 'Dandraka.CRMConnectCore'
+      run: dotnet restore
+    - name: Build
+      working-directory: 'Dandraka.CRMConnectCore'
+      run: dotnet build --no-restore
+    - name: Test
+      working-directory: 'Dandraka.CRMConnectCore'
+      run: dotnet test --no-build --verbosity normal
