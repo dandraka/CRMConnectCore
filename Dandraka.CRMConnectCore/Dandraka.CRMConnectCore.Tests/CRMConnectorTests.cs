@@ -53,7 +53,11 @@ namespace Dandraka.CRMConnectCore.Tests
             var record = records[0];
 
             string before = Convert.ToString(record.Attributes["firstname"]);
-            string after = before + " " + DateTime.Now.Millisecond.ToString();
+            if (before.Contains(" TEST"))
+            {
+                before = before.Remove(before.IndexOf(" TEST"));
+            }
+            string after = before + " TEST" + DateTime.Now.Millisecond.ToString();
             var properties = new Dictionary<string, object>();
             properties.Add("firstname", after);
 
