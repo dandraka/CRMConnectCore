@@ -26,3 +26,7 @@ jobs:
     - name: Test
       working-directory: 'Dandraka.CRMConnectCore'
       run: dotnet test --no-build --verbosity normal
+      env:
+        CRM_URL: ${{secrets.CRM_URL}}
+        CRM_CLIENTID: ${{secrets.CRM_CLIENTID}}
+        CRM_CLIENTSECRET: ${{secrets.CRM_CLIENTSECRET}}

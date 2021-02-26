@@ -59,7 +59,7 @@ namespace Dandraka.CRMConnectCore.Tests
             catch (Exception ex)
             {
                 throw new ApplicationException($"INVALID CONFIG: Could not load {path} as XML.\r\n{ex.Message}");
-            }            
+            }
 
             // check if data are present
             var urlNode = xmlDoc.SelectSingleNode("//*[local-name()='CRMUrl']");
@@ -101,12 +101,43 @@ namespace Dandraka.CRMConnectCore.Tests
             }
         }
 
-        public string CRMUrl => config.CRMUrl;
+        public string CRMUrl
+        {
+            get
+            {
+                string s = (string)config.CRMUrl;
+                if (s.StartsWith("%") && s.EndsWith("%"))
+                {
+                    s = Environment.GetEnvironmentVariable(s.Replace("%", ""));
+                }
+                return s;
+            }
+        }
 
-        public string ClientID => config.ClientID;
+        public string ClientID
+        {
+            get
+            {
+                string s = (string)config.ClientID;
+                if (s.StartsWith("%") && s.EndsWith("%"))
+                {
+                    s = Environment.GetEnvironmentVariable(s.Replace("%", ""));
+                }
+                return s;
+            }
+        }
 
-        public SecureString ClientSecret =>
-            new NetworkCredential("", Security.DecryptString(config.ClientSecretEncrypted, this.key)).SecurePassword;
-
+        public SecureString ClientSecret
+        {
+            get
+            {
+                string s = (string)config.ClientSecretEncrypted;
+                if (s.StartsWith("%") && s.EndsWith("%"))
+                {
+                    s = Environment.GetEnvironmentVariable(s.Replace("%", ""));
+                }
+                return new NetworkCredential("", Security.DecryptString(s, this.key)).SecurePassword;
+            }
+        }
     }
 }
