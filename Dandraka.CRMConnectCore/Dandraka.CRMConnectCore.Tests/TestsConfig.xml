@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Config>
+  <CRMUrl>${{secrets.CRM_URL}}</CRMUrl>
+  <ClientID>${{secrets.CRM_CLIENTID}}</ClientID>
+  <ClientSecret>${{secrets.CRM_CLIENTSECRET}}</ClientSecret>
+</Config>
